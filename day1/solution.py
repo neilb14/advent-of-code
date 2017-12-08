@@ -2,31 +2,6 @@ import sys
 
 def captcha(input):
     result = 0
-    first = input[0]
-    last = None
-    for digit in input:
-        if last is not None and digit == last:
-            result += int(digit)
-        last = digit
-    if first == last:
-        result += int(last)
-    return result
-
-def halfway_captcha(input):
-    result = 0
-    first = input[0]
-    last = None
-    for digit in input:
-        if last is not None and digit == last:
-            result += int(digit)
-        last = digit
-    if first == last:
-        result += int(last)
-    return result
-import sys
-
-def captcha(input):
-    result = 0
     last = None
     length = len(input)
     for i in range(0, length+1):
