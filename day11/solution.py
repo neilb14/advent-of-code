@@ -6,10 +6,7 @@ def cost(path):
         result += path[k]
     return result
 
-def walk(input):
-    path = {'n':0,'ne':0,'nw':0, 's':0, 'sw':0, 'se': 0}
-    for step in input.split(','):        
-        path[step] +=1
+def walk_path(path):
     last_result, result = cost(path)+1, cost(path)
     while(result < last_result):
         for pair in [['ne','nw','n'],['se','sw','s']]:
@@ -33,6 +30,17 @@ def walk(input):
         result = cost(path)
     return result
 
+
+def walk(input):
+    path = {'n':0,'ne':0,'nw':0, 's':0, 'sw':0, 'se': 0}
+    champion,result = 0,0
+    for step in input.split(','):        
+        path[step] +=1
+        result = walk_path(path)
+        if(result > champion):
+            champion = result
+    return result, champion
+    
 if __name__ == '__main__':
     with open(sys.argv[1], "r") as input_file:
         data = input_file.read()
