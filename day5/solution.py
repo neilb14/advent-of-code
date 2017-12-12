@@ -6,7 +6,10 @@ def run(input):
     while(i >= 0 and i < len(input)):
         #print(f'{count}| {i} {input}')
         x = input[i]
-        input[i] += 1
+        if(input[i] >= 3):
+            input[i] -= 1
+        else:
+            input[i] += 1
         i = x + i
         count += 1
     return count
