@@ -38,6 +38,30 @@ def hash(input, lengths):
         dense_hash += make_dense_hash(result[start:end])
     return dense_hash
 
+def print_grid(grid):
+    for i in range(128):
+        print(grid[i])
+
+def mark(grid, i, j, count):
+    if(i < 0 or j < 0 or i >= 128 or j >= 128 or grid[i][j] != 1):
+        return
+    grid[i][j] = count+100
+    mark(grid, i-1, j, count)
+    mark(grid, i+1, j, count)
+    mark(grid, i, j-1, count)
+    mark(grid, i, j+1, count)
+
+def scan(grid):
+    count = 0
+    for i in range(128):
+        for j in range(128):
+            print(f'scan: [{i}][{j}]')
+            if(grid[i][j] == 1):
+                count += 1
+                mark(grid, i, j, count)
+    return count
+
+
 def run(input):
     key = []
     for x in range(256):
@@ -45,10 +69,14 @@ def run(input):
     grid = [[0 for i in range(128)] for j in range(128)]
     result = 0
     for i in range(128):
+        row = []
         for x in hash(key, f'{input}-{i}'):
-            result += sum([int(c) for c in bin(int(x,16))[2:]])
-        #result += sum([int(c) for c in [bin(int(x,16)) for x in hash(key, f'{input}-{i}')][2:]])
-    return result
+            binary = [int(c) for c in bin(int(x,16))[2:]]
+            row += [0 for y in range(4-len(binary))] + binary
+        grid[i] = row
+        result += sum(row)
+    print_grid(grid)
+    return result, scan(grid)
 
 if __name__ == '__main__':
         print(run('hfdlxzhv'))
