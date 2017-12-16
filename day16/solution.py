@@ -37,10 +37,26 @@ def dance(dancers, steps):
             dancers = do_pair(dancers, step)
         else:
             raise Exception(f'Error: unknown step [{step}]')
+    return dancers
+
+def long_dance(n, dancers, steps):
+    memo = []
+    for i in range(n):
+        key = ''.join(dancers)
+        if(i % 1000 == 0):
+            print(f'== on cycle {i} [{key}]')
+        if(key in memo):
+            print(f'== using memo on cycle [{i}] [{key}]')
+            return memo[n % i]
+        memo.append(key)
+        dancers = dance(dancers, steps)
     return ''.join(dancers)
+
 
 if __name__ == '__main__':
     dancers = [chr(i) for i in range(97,97+16)]
     with open(sys.argv[1], 'r') as input_file:
         steps = input_file.read().split(',')
-        print(dance(dancers, steps))
+        print(''.join(dancers))
+        result = dance(dancers[:], steps)
+        print(''.join(result), ' ' , long_dance(1000000000, dancers[:], steps))
