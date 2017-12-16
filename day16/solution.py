@@ -43,8 +43,6 @@ def long_dance(n, dancers, steps):
     memo = []
     for i in range(n):
         key = ''.join(dancers)
-        if(i % 1000 == 0):
-            print(f'== on cycle {i} [{key}]')
         if(key in memo):
             print(f'== using memo on cycle [{i}] [{key}]')
             return memo[n % i]
