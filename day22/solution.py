@@ -26,6 +26,7 @@ def resize(input):
 
 turn_right = {up:right, right:down, down:left, left:up}
 turn_left = {up:left, left:down, down:right, right:up}
+turn_back = {up:down, left:right, down:up, right:left}
 
 def run(input, n):
     infected = 0
@@ -39,12 +40,19 @@ def run(input, n):
             y +=1
         node = input[y][x]
         if node == '.':
-            infected += 1
-            input[y][x] = '#'
+            input[y][x] = 'W'
             direction = turn_left[direction]
             x,y = direction(x,y)
-        elif node == '#':
+        elif node == 'W':
+            infected += 1
+            input[y][x] = '#'
+            x,y = direction(x,y)                        
+        elif node == 'F':
             input[y][x] = '.'
+            direction = turn_back[direction]
+            x,y = direction(x,y)                                
+        elif node == '#':
+            input[y][x] = 'F'
             direction = turn_right[direction]
             x,y = direction(x,y)
         else:
@@ -54,4 +62,4 @@ def run(input, n):
 if __name__ == '__main__':
     with open(sys.argv[1], "r") as input_file:
         input = input_file.readlines() 
-        print(run(convert_input_string_to_list(input), 10000))
+        print(run(convert_input_string_to_list(input), 10000000))
